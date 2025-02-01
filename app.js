@@ -3,9 +3,13 @@ const express = require("express");
 const { sequelize } = require("./models");
 const app = express();
 const PORT = 8080;
+const { roleRoutes } = require("./routes");
+
+app.use(express.json());
+// app.use(express.urlencoded({ extended: true }))
 
 
-
+// database connection
 (async () => {
   try {
     await sequelize.authenticate();
@@ -15,10 +19,13 @@ const PORT = 8080;
   }
 })();
 
-app.get("/user", (req, res) => {
-  res.send("Hy Users");
-});
+
+
+//role routes
+app.use("/api/v1/roles", roleRoutes);
 
 app.listen(PORT, () => {
   console.log(`app listen on port ${PORT}`);
 });
+
+module.exports = app;
